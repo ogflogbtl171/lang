@@ -17,7 +17,12 @@ unittest
 	assert(isStringLiteral(q{"hasjd"}));
 	assert(!isStringLiteral("\"hasjd"));
 	assert(!isStringLiteral("hasjd\""));
-	assert(isStringLiteral(q{"…”‘ˆ‡Š†‰"}));
+	assert(isStringLiteral(q{"…”‘ˆ‡Š†‰"}));
+	// TODO
+	// add non printable characters
+	// these should be an error
+	// there should be no non-printable characters
+	// need to check this
 }
 
 /// Return true, if the given string begins with a valid string literal and cuts the representing string off
