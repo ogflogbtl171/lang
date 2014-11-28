@@ -1,0 +1,9 @@
+{
+	"name": "lang",
+	"description": "",
+	"authors": ["Stephan Fischer", "Jens K. Mueller"],
+	"homepage": "https://github.com/jkmfsu/lang",
+	"license": "public domain",
+	"targetType": "executable",
+	"mainSourceFile": "src/core/package.d"
+}

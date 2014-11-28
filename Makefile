@@ -42,6 +42,11 @@ tests: $(TEST_EXECUTABLE)
 	$(info Executing tests)
 	./$(TEST_EXECUTABLE)
 
+.PHONY: coverage
+coverage:
+	$(info Coverage)
+	dub --build=unittest-cov
+
 .PHONY: download_dub
 download_dub:
 	wget http://code.dlang.org/files/dub-0.9.22-linux-x86_64.tar.gz

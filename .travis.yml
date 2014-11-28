@@ -18,6 +18,8 @@ before_install:
    - export PATH=$PATH:$PWD/
 
 env:
+   global:
+       - secure: "a5uPvUZg3AXRvKuPTh/6tbbjmWEuZJzY7jg18SyPUKVDve9kg1UNEzJuq86e7Oobo+adMFFeF2x9XihMzwa/USIjdbalqZJIi/A2Pe9zaU6f+3IKNjo92cZe2WLE4twIjwLhftN6ybowrg9wqsDp8Afy/Wcn23v1NpLX6qECT9o="
    matrix:
      - DC="dmd" BUILD="release"
      - DC="dmd" BUILD="debug"
@@ -29,3 +31,8 @@ env:
 script:
    - make DC=$DC BUILD=$BUILD
    - make DC=$DC BUILD=$BUILD tests
+   - test ! $DC = "dmd" || make DC=$DC BUILD=$BUILD coverage
+
+after_success:
+   - dub fetch doveralls
+   - test $TRAVIS_REPO_SLUG = "jkmfsu/lang" && dub run doveralls -- -p $PWD -t $COVERALLS_TOKEN
