@@ -42,6 +42,12 @@ tests: $(TEST_EXECUTABLE)
 	$(info Executing tests)
 	./$(TEST_EXECUTABLE)
 
+.PHONY: download_dub
+download_dub:
+	wget http://code.dlang.org/files/dub-0.9.22-linux-x86_64.tar.gz
+	tar xf dub-0.9.22-linux-x86_64.tar.gz
+	@echo "Update your PATH via export PATH=\$$PWD/:\$$PATH"
+
 .PHONY: download
 download: download_$(DC)
 

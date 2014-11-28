@@ -14,6 +14,8 @@ before_install:
          export PATH=$PATH:$PWD/ldc2-0.14.0-linux-x86_64/bin;
          ;;
      esac
+   - make download_dub
+   - export PATH=$PATH:$PWD/
 
 env:
    matrix:
