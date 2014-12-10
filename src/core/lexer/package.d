@@ -5,7 +5,7 @@ enum TokenId
 {
 	number,
 	identifier,
-	string,
+	string_,
 	parentheses,
 	brackets,
 	list,
@@ -69,7 +69,7 @@ bool nextToken(ref string code, out Token t)
 				stderr.writefln("Lexing error at '%s' in code '%s'.", code, saveCode);
 				return false;
 			}
-			t = Token(TokenId.string, saveCode[0 .. saveCode.length - code.length]);
+			t = Token(TokenId.string_, saveCode[0 .. saveCode.length - code.length]);
 			return true;
 		default:
 			import core.lexer.identifier;
@@ -205,12 +205,12 @@ unittest
 	code = "\"\"wef";
 	assert(nextToken(code, t));
 	assert(code == "wef", code);
-	assert(t == Token(TokenId.string, "\"\""));
+	assert(t == Token(TokenId.string_, "\"\""));
 
 	code = "\"@	Î ±\n…\"wef";
 	assert(nextToken(code, t));
 	assert(code == "wef", code);
-	assert(t == Token(TokenId.string, "\"@	Î ±\n…\""));
+	assert(t == Token(TokenId.string_, "\"@	Î ±\n…\""));
 }
 
 /// Like nextToken but does not modify code.
