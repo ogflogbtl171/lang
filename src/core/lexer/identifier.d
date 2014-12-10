@@ -1,5 +1,8 @@
 module core.lexer.identifier;
 
+/// Identifier
+alias Identifier = string;
+
 /// Return true, if the given string represents a valid identifier.
 /// Otherwise false.
 bool isIdentifier(string identifierAsString)
