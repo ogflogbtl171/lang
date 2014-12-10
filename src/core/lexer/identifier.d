@@ -28,6 +28,10 @@ unittest
 	assert(isIdentifier("afbj2jkk"));
 	assert(isIdentifier("afa888"));
 	assert(isIdentifier("kjk8hjhj77aaa01"));
+	assert(isIdentifier("+2"));
+	assert(!isIdentifier("1+2"));
+	assert(!isIdentifier("1 + 2"));
+	assert(!isIdentifier("\"foo+2"));
 
 	assert(!isIdentifier("\"ahk\""));
 	assert(!isIdentifier("\"\""));
@@ -46,7 +50,9 @@ unittest
 	assert(!isIdentifier("("));
 	assert(!isIdentifier(")"));
 	assert(!isIdentifier("Hka6sl(j"));
+	assert(isIdentifier("__5"));
 	assert(!isIdentifier("__5)"));
+	assert(isIdentifier("__a"));
 }
 
 /// Return true, if the given string begins with a valid identifier and cuts the representing string off
