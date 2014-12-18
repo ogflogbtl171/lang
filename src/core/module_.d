@@ -327,6 +327,19 @@ unittest
 	}
 }
 
+/// Returns: a pointer to the loaded module containing the given code if such
+/// exists. Otherwise null.
+const(Module)* findModuleContainingCode(string code)
+{
+	auto lowerModule = findModuleLeftOf(code);
+	if (lowerModule == null) return null;
+	if (code.ptr + code.length <=
+	    (*lowerModule).code.ptr + (*lowerModule).code.length)
+		return lowerModule;
+
+	return null;
+}
+
 /// Returns: the loaded modules.
 const(Module)[] loadedModules()
 {
@@ -343,19 +356,6 @@ void clearLoadedModules()
 private:
 
 Module[] _loadedModules;
-
-/// Returns: a pointer to the loaded module containing the given code if such
-/// exists. Otherwise null.
-const(Module)* findModuleContainingCode(string code)
-{
-	auto lowerModule = findModuleLeftOf(code);
-	if (lowerModule == null) return null;
-	if (code.ptr + code.length <=
-	    (*lowerModule).code.ptr + (*lowerModule).code.length)
-		return lowerModule;
-
-	return null;
-}
 
 /// Returns: a pointer to the loaded module left of the given code (lower bound
 /// module) if such exists. Otherwise null.

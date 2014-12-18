@@ -55,8 +55,8 @@ bool nextToken(ref string code, out Token t)
 			import core.lexer.integral_literal;
 			if (!consumeIntegralLiteral(code))
 			{
-				import std.stdio;
-				stderr.writefln("Lexing error at '%s' in code '%s'.", code, saveCode);
+				import core.diagnostics;
+				lexingError(ErrorId.expectedNumber, code);
 				return false;
 			}
 			t = Token(TokenId.number, saveCode[0 .. saveCode.length - code.length]);
@@ -65,8 +65,8 @@ bool nextToken(ref string code, out Token t)
 			import core.lexer.string_literal;
 			if (!consumeStringLiteral(code))
 			{
-				import std.stdio;
-				stderr.writefln("Lexing error at '%s' in code '%s'.", code, saveCode);
+				import core.diagnostics;
+				lexingError(ErrorId.expectedString, code);
 				return false;
 			}
 			t = Token(TokenId.string_, saveCode[0 .. saveCode.length - code.length]);
@@ -75,8 +75,8 @@ bool nextToken(ref string code, out Token t)
 			import core.lexer.identifier;
 			if (!consumeIdentifier(code))
 			{
-				import std.stdio;
-				stderr.writefln("Lexing error at '%s' in code '%s'.", code, saveCode);
+				import core.diagnostics;
+				lexingError(ErrorId.expectedIdentifier, code);
 				return false;
 			}
 			t = Token(TokenId.identifier, saveCode[0 .. saveCode.length - code.length]);
@@ -84,6 +84,23 @@ bool nextToken(ref string code, out Token t)
 	}
 
 	assert(false);
+}
+
+import core.diagnostics;
+/// Reports an error with given id for lexing.
+void lexingError(ErrorId id, string code)
+{
+	import std.string : format;
+	immutable auto savedCode = code;
+	Token t;
+	auto str = nextToken(code, t) ? format(" (a %s)", t) : "";
+	auto got = savedCode[0 .. savedCode.length - code.length];
+
+	import core.diagnostics : Error;
+	auto e = Error(id, format("got '%s'%s", got, str));
+	auto l = locateFromCode(savedCode);
+	if (l.isValid()) e.location = l;
+	error(e);
 }
 
 unittest
