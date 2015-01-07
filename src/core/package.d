@@ -6,7 +6,7 @@ void main(string[] args)
 	string opfile = "operators.lang";
 	enum usage = "\nUsage main [args] {inputfile}, where args can be any of:
 							\n -h\n --help\tshows this message
-							\n -o F\n --output F\n --output=F\tspecifies F, the filename of the output file (default=\"<inputfilename>.o\")
+							\n -o F\n --output F\n --output=F\tspecifies F, the filename of the output file (default=\"<inputfilename>.ll\")
 							\n -p O\n --operators O\n --operators=O\tspecifies O, the filename of the input file, that registers operators (default=\"operators.lang\")
 							\nEach inputfile specifies the filename of a source code file, that should be compiled (if none specified \"main.lang\" is taken).";
 	import std.stdio;
@@ -58,11 +58,11 @@ void main(string[] args)
 	if(outputfile == "")
 	{
 		import std.string;
-		// cut off file extension if one and add .o extension
+		// cut off file extension if one and add .ll extension
 		i = lastIndexOf(inputfiles[0], '.');
 		if(i >= 0)
 			outputfile = inputfiles[0][0..i];
-		outputfile = outputfile ~ ".o";
+		outputfile = outputfile ~ ".ll";
 	}
 	foreach(filename; inputfiles)
 	{
@@ -77,11 +77,19 @@ void main(string[] args)
 		import core.lexer;
 		import core.parser;
 		import core.parser.ast;
+		import core.coder;
 		Ast parent, child;
 		parent = Ast(Token(TokenId.list, ""));
 		while(parseExpression(code, child))
 			parent.children ~= child;
-		writefln("Parsed AST:\n%s", parent);
+		try
+		{
+			File of = File(outputfile, "w");
+			of.writeln(produceCode(parent));
+			of.close();
+		}
+		catch(Exception e)
+			writefln("Could not write into file: %s", outputfile);
 		if(code.length != 0)
 			stderr.writefln("Parsing error at '%s'", code);
 	}
