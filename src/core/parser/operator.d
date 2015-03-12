@@ -34,6 +34,7 @@ auto Operators =
 	Operator("-", 2, 12, left),
 	Operator("*", 2, 14, left),
 	Operator("/", 2, 14, left),
+	Operator("=", 2, 10, left),
 ];
 
 import core.lexer.identifier;

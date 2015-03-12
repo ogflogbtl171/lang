@@ -7,7 +7,7 @@ import core.parser.operator;
 // this is just a temporal solution, to test infix- versus prefix-notation
 bool isOperator(Token t)
 {
-	return (t.lexeme == "+") || (t.lexeme == "-") || (t.lexeme == "*") || (t.lexeme == "/");
+	return (t.lexeme == "+") || (t.lexeme == "-") || (t.lexeme == "*") || (t.lexeme == "/") || (t.lexeme == "=");
 }
 
 // returns true, if parsing an AST from the given string succeeds with the first operand already cut off and given in lhs
